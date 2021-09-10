@@ -33,8 +33,21 @@ public class CoffeeMachine {
         System.out.println(message);
     }
 
-    public void prepare() throws InterruptedException {
-        Thread.sleep(2000);
+    public void prepare() {
+        try {
+            showInfo("Please insert banknote");
+            pay(5);
+            showInfo("Current balance = " + getBalance());
+            showInfo("Choose option");
+            choose(1);
+            showInfo("Chosen coffee is " + getChosenCoffee());
+            showInfo("In progress...");
+            Thread.sleep(2000);
+            showInfo("Coffee is ready!");
+            showInfo("Balance Rest = " + getBalance());
+        } catch (Exception e) {
+            showInfo(e.getMessage());
+        }
     }
 
     public String getChosenCoffee() {
