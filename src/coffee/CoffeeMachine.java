@@ -1,45 +1,47 @@
 package coffee;
 
 public class CoffeeMachine {
-    private Boolean pay(Integer banknoteNominal){
-        if(banknoteNominal == 5 || banknoteNominal == 10){
-            return true;
+    private String chosenCoffee;
+    private int balance;
+
+    public void pay(Integer banknoteNominal) throws Exception {
+        if (!(banknoteNominal == 5 || banknoteNominal == 10)) {
+            throw new Exception("Please insert correct banknote");
         }
-        return false;
+
+        this.balance += banknoteNominal;
     }
 
-    private String choose(Integer option){
-        if(option == 1){
-            return "Coffee";
-        } else if(option == 2){
-            return "Cappuccino";
+    public boolean validation(int option) throws Exception {
+        if (option != 1 && option != 2) {
+            throw new Exception("Option doesnt exists, try again!");
         }
-        return "Incorrect option";
+
+        if (!(option == 1 && this.balance >= 5) && !(option == 2 && this.balance >= 10)) {
+            throw new Exception("Not enough balance");
+        }
+
+        return true;
     }
 
-    private void showInfo(String message){
+    public void choose(int option) throws Exception {
+        validation(option);
+        this.chosenCoffee = option == 1 ? "Espresso" : "Americano";
+    }
+
+    public void showInfo(String message) {
         System.out.println(message);
     }
 
-    private String done(String coffeeType){
-        return coffeeType;
+    public void prepare() throws InterruptedException {
+        Thread.sleep(2000);
     }
 
-    public void prepare(){
-        String coffeeType = "";
-        this.showInfo("Please insert banknote");
-        if(this.pay(5)){
-            this.showInfo("Please chose option");
-            coffeeType = this.choose(1);
-            this.showInfo(
-                    "You choose is: " + coffeeType
-            );
-            this.showInfo("Preparing...");
-            this.showInfo(
-                    "Done: " + this.done(coffeeType)
-            );
-        } else {
-            this.showInfo("Please insert correct banknote");
-        }
+    public String getChosenCoffee() {
+        return this.chosenCoffee;
+    }
+
+    public int getBalance() {
+        return balance;
     }
 }
